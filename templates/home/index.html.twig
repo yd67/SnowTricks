@@ -16,5 +16,8 @@
         <li>Your controller at <code><a href="{{ 'C:/wamp64/www/OpenClassrooms/snowtricks/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
         <li>Your template at <code><a href="{{ 'C:/wamp64/www/OpenClassrooms/snowtricks/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
     </ul>
+
+    <a href="{{ path('admin_add_triks') }}">ajout figures</a>
+    <a href="{{ path('admin_update_triks',{slug: 'test-mike'}) }}">modif de mike test</a>
 </div>
 {% endblock %}

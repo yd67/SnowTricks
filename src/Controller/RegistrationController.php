@@ -3,22 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Services\UserFileUpload;
 use App\Form\RegistrationFormType;
-use App\Services\UploadFile;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationController extends AbstractController
 {
     /**
      * @Route("/inscription", name="app_register")
      */
-    public function register(Request $request,UploadFile $upload ,UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request,UserFileUpload $upload ,UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -28,8 +28,7 @@ class RegistrationController extends AbstractController
 
             $file = $form->get('avatar')->getData() ;
             if ($file) {
-                $destination = $this->getParameter('user_folder_upload') ;
-                $filename = $upload->upload($file,$destination) ;
+                $filename = $upload->upload($file) ;
                 $user->setAvatar($filename) ;
             }
             

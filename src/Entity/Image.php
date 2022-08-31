@@ -27,6 +27,11 @@ class Image
      */
     private $triks;
 
+    /**
+     * @ORM\Column(type="string", length=300, nullable=true)
+     */
+    private $path;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Image
     public function setTriks(?Triks $triks): self
     {
         $this->triks = $triks;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }
