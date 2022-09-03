@@ -52,12 +52,12 @@ class Triks
     private $groupes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="triks")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="triks",cascade={"persist"},orphanRemoval=true)
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="triks",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="triks",cascade={"persist"},orphanRemoval=true)
      */
     private $video;
 

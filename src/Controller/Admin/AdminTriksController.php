@@ -44,27 +44,26 @@ class AdminTriksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $images =  $form->get('images')->getData();
-           
+
+            $images =  $form->get('image')->getData();
+            foreach ($images as $image) {
+                $file = $image->getFile();
+                $filename = $this->upload->upload($file) ;
+                $image->setFilename($filename);
+            }
             $slug = $slugger->slug($form->get('name')->getData());
             $triks->setSlug($slug);
             $triks->setCreator($this->getUser());
 
-            foreach ($images as $image) {
-               $img = new Image ;
-               $path = $this->getParameter('triks_folder_upload');
-               $img->setTriks($triks) ;
-               $img->setPath($path);
-               
-               $fileName = $this->upload->upload($image);
-               $img->setFilename($fileName);
-               
-               $this->em->persist($img);
-            }
             $this->em->persist($triks);
             $this->em->flush();
-        }
 
+            $this->addFlash(
+                'success',
+                'la figure a bien été créer '
+            );
+            return $this->redirectToRoute('app_home') ;
+        }
         return $this->render('admin/triks/addTriks.html.twig', [
             'controller_name' => 'ajout figures',
             'form' => $form->createView()
@@ -80,6 +79,16 @@ class AdminTriksController extends AbstractController
         $triks = $this->triksRepo->findOneBy(['slug' => $slug]) ;
         $form = $this->createForm(TriksType::class,$triks);
         $form->handleRequest($request);
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+                     
+           // $images =  $form->get('ima')->getData();
+
+            $this->em->persist($triks);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_home') ;
+        }
 
         return $this->render('admin/triks/updateTriks.html.twig',[
             'triks' => $triks ,

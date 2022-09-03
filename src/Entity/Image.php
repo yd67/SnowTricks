@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -31,6 +33,16 @@ class Image
      * @ORM\Column(type="string", length=300, nullable=true)
      */
     private $path;
+
+    /**
+     *  @Assert\Image(
+     *  maxSize = "10M",
+     *  mimeTypes= {"image/*"},
+     *  mimeTypesMessage = "seul les images  sont autorisé",
+     *  maxSizeMessage = "le fichier est trop volumineux",
+     *  )
+     */
+    protected $file;
 
     public function getId(): ?int
     {
@@ -69,6 +81,18 @@ class Image
     public function setPath(?string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }

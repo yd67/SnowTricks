@@ -30,32 +30,22 @@ class TriksType extends AbstractType
                 'choice_label'=> 'Groupes',
                 'label'=>'Groupe'
             ])
-            ->add('images',FileType::class, [
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false,
-                // 'constraints' => [
-                //     // new File([
-                //     //     'maxSize' => '10M',
-                //     //     'mimeTypes' => [
-                //     //         'image/*',
-                //     //     ],
-                //     //     'maxSizeMessage' => 'le fichier est trop volumineux',
-                //     //     'mimeTypesMessage'  => 'seul les images  sont autorisé',
-                //     // ])
-                // ],
+            ->add('image', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'delete_empty' => true,
             ])
                 
-            // ])
             ->add('video', CollectionType::class, [
-                // each entry in the array will be an "email" field
                 'entry_type' => VideoType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-
-                
+                'delete_empty' => true,
             ])
             ->add('ajouter',SubmitType::class)
         ;
