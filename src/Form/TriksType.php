@@ -32,7 +32,7 @@ class TriksType extends AbstractType
             ])
             ->add('image', CollectionType::class, [
                 'entry_type' => ImageType::class,
-                'entry_options' => ['label' => false],
+                'entry_options' => ['label' => false,'error_bubbling' => true],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -47,7 +47,6 @@ class TriksType extends AbstractType
                 'by_reference' => false,
                 'delete_empty' => true,
             ])
-            ->add('ajouter',SubmitType::class)
         ;
     }
 

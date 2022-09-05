@@ -15,7 +15,16 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('file',FileType::class,[
-                'required' => false,   
+                'required' => false,  
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4048k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'seul les images sont autorisé ',
+                    ]),
+                ],
             ])
         ;
     }

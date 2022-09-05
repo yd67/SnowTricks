@@ -5,7 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Image;
 use App\Entity\Triks;
 use App\Form\TriksType;
+use App\Repository\ImageRepository;
 use App\Repository\TriksRepository;
+use App\Repository\VideoRepository;
 use App\Services\TriksFileUpload;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminTriksController extends AbstractController
 {
-    public function __construct(TriksFileUpload $upload, TriksRepository $triksRepo ,EntityManagerInterface $entityManager)
+    public function __construct(TriksFileUpload $upload,TriksRepository $triksRepo ,EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
         $this->upload = $upload ;
@@ -76,24 +78,104 @@ class AdminTriksController extends AbstractController
     public function updateTriks($slug,Request $request)
     {
 
-        $triks = $this->triksRepo->findOneBy(['slug' => $slug]) ;
-        $form = $this->createForm(TriksType::class,$triks);
+        $trik = $this->triksRepo->findOneBy(['slug' => $slug]) ;
+        $form = $this->createForm(TriksType::class,$trik);
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-                     
-           // $images =  $form->get('ima')->getData();
+            $images =  $form->get('image')->getData();  
 
-            $this->em->persist($triks);
+            foreach ($images as $image) {
+                $file = $image->getFile();
+                if (!empty($file)) {
+                    
+                    // delete old image 
+                    $this->upload->remove($image->getFilename());
+
+                    $filename = $this->upload->upload($file) ;
+                    $image->setFilename($filename);
+                }
+            }
+            $this->em->persist($trik);
             $this->em->flush();
 
-            return $this->redirectToRoute('app_home') ;
+            $this->addFlash(
+                'success',
+                'modification réussi'
+            );
+            // return $this->redirectToRoute('app_home') ;
         }
 
         return $this->render('admin/triks/updateTriks.html.twig',[
-            'triks' => $triks ,
+            'trik' => $trik ,
             'form' => $form->createView()
         ]);
 
+    }
+
+     /**
+     * @Route("/admin/triks-{id}/delete/", name="delete_trik")
+     */
+    public function deleteTrik($id)
+    {
+        $triks = $this->triksRepo->findOneBy(['id' => $id]) ;
+
+        if (!empty($triks)) {
+
+            $this->em->remove($triks) ;
+            $this->em->flush();
+
+            $images = $triks->getImage() ;
+            foreach ($images as $image) {
+                $this->upload->remove($image->getFilename()) ;
+            }
+
+            $this->addFlash(
+                'success',
+                'la fifure a bien été supprimer'
+            );
+        }
+        return $this->redirectToRoute('app_home') ;
+    }
+
+
+     /**
+     * @Route("/admin/delete/image-{id}/{slug}", name="delete_trik_image")
+     */
+    public function deleteTriksImage($id,$slug,ImageRepository $imageRepo )
+    {
+        $image = $imageRepo->findOneBy(['id' => $id ,]) ;
+        if (!empty($image)) {
+
+            $this->em->remove($image);
+            $this->em->flush();
+
+            $this->upload->remove($image->getFilename());
+
+            $this->addFlash(
+                'success',
+                'l`\'image a bien été supprimer'
+            );
+        }
+        return $this->redirectToRoute('admin_update_triks',['slug'=> $slug ]) ;
+    }
+
+     /**
+     * @Route("/admin/delete/video-{id}/{slug}", name="delete_trik_video")
+     */
+    public function deleteTriksVideo($id,$slug,VideoRepository $videoRepo)
+    {
+        $video = $videoRepo->findOneBy(['id' => $id ,]) ;
+        if (!empty($video)) {
+
+            $this->em->remove($video);
+            $this->em->flush();
+
+            $this->addFlash(
+                'success',
+                'la video a bien été supprimer'
+            );
+        }
+        return $this->redirectToRoute('admin_update_triks',['slug'=> $slug ]) ;
     }
 }

@@ -27,4 +27,12 @@ class TriksFileUpload
         }
         return $fileName ;
     }
+
+    public function remove($filename)
+    {
+        $file = $this->destination."/".$filename ;
+        if (is_file($file)) {
+            unlink($file);
+        }
+    }
 }
