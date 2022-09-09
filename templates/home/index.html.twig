@@ -50,10 +50,29 @@
 			</ul>
 
 			<a class="btn btn-primary" href="{{ path('admin_add_triks') }}">ajout figures</a>
-			<a href="{{ path('admin_update_triks',{slug: 'le-test-ultime'}) }}">
-				update exemple
-			</a>
+			
 		</div>
+
+
+		<div class="row pt-5">
+	  {% for trik in triks %}
+     	 <!-- Gallery item -->
+			<div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+				<div class="bg-white rounded shadow-sm">
+				{% if  trik.image.0.filename is defined  %} 
+				     <img src="{{asset('uploads/triks/' ~ trik.image.0.filename )}}" alt="" class="img-fluid card-img-top" style="height:222px" >
+				{% else %}
+					 <img src="{{asset('uploads/triks/defaultTriks.jpg' )}}" alt="" class="img-fluid card-img-top">
+				{% endif %}
+				<div class="p-4">
+					<h5> <a href="{{path('app_trik_detail',{slug: trik.slug}) }}" class="text-dark">{{trik.name}}</a></h5>
+				</div>
+				</div>
+			</div>
+		<!-- End -->
+	  {% endfor %}
+
+    </div>
 
 	</div>
 {% endblock %}

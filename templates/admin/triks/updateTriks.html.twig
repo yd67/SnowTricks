@@ -24,7 +24,7 @@
 		{% if form.image.0 is defined %}
 			<h3>image a la une </h3>
 			<img style="height:340px" class="img-fluid img-thumbnail" src="{{asset('uploads/triks/' ~ form.image.0.vars.value.filename )}}" alt="">
-			{{ form_widget(form.image.0,{'value' : form.image.0.vars.value.filename }) }} 
+			{{ form_widget(form.image.0) }} 
 		{% endif %}
 		</div>
 

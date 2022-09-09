@@ -1,0 +1,252 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}snowtriks - presentation
+{% endblock %}
+
+{% block body %}
+	<section class=" d-flex justify-content-center">
+		<div class="col">
+			{% if  trik.image.0.filename is defined  %}
+				<img src="{{asset('uploads/triks/' ~ trik.image.0.filename )}}" style="max-height: 350px;" alt="" class="img-fluid ">
+			{% else %}
+				<img src="{{asset('uploads/triks/defaultTriks.jpg' )}}" style="max-height: 350px;" alt="" class="img-fluid">
+			{% endif %}
+		</div>
+		<div class="p-5">
+			<a class="btn btn-primary" href="{{ path('admin_update_triks',{slug: trik.slug}) }}">
+				modifier
+			</a>
+		</div>
+	</section>
+
+	<section class="d-flex justify-content-center pt-5 pb-5">
+		<div class="col-xl-6 ">
+			<div class="row">
+				{% for image in trik.image %}
+					{% if loop.index > 1 %}
+						<div class="col-4">
+							<img style="height:240px" class="img-fluid img-thumbnail" src="{{asset('uploads/triks/' ~ image.filename )}}" alt="">
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		<div class="col-xl-6 ">
+			<div class="row">
+				{% for video in trik.video %}
+					<div class="col-4">
+						<iframe width="380" height="215" src="{{video.url}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+	<h1 class="text-center">
+		{{trik.name}}
+	</h1>
+
+	<section class="p-4">
+
+		<p class="text-center pr-5 pl-5">
+			{{trik.description}}
+		</p>
+
+	</section>
+
+	<div class="text-center">
+		<span class="badge bg-secondary text-decoration-none link-light p-2" href="#!">
+			creation :
+		</span>
+		<span class="badge bg-secondary text-decoration-none link-light p-2" href="#!">
+			groupe :
+		</span>
+		<span class="badge bg-secondary text-decoration-none link-light p-2" href="#!">
+			modification :
+		</span>
+	</div>
+
+
+	<section class="gradient-custom">
+		<div class="container my-5 py-5">
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-12 col-lg-10 col-xl-8">
+                {% if is_granted('ROLE_USER') %}
+					<h4 class="text-center mb-4 pb-2">laisser un commentaire</h4>
+					<div class="card-footer py-3 border-0 mb-5" style="background-color: #f8f9fa;">
+						<div class="d-flex flex-start w-100">
+							<img class="rounded-circle shadow-1-strong me-3" src="{{asset('uploads/user/' ~ app.user.avatar )}}" alt="avatar" width="40" height="40"/>
+							<div class="form-outline w-100">
+								<textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;"></textarea>
+								<label class="form-label" for="textAreaExample">Message</label>
+							</div>
+						</div>
+						<div class="float-end mt-2 pt-1">
+							<button type="button" class="btn btn-primary btn-sm">poster</button>
+						</div>
+					</div>
+                {% endif %}
+					<div class="card border-start-0 border-top-3 border-end-0 border-bottom-3 border border-dark">
+						<div class="card-body p-4">
+							<h4 class="text-center mb-4 pb-2">Nested comments section</h4>
+
+							<div class="row">
+								<div class="col">
+									<div class="d-flex flex-start">
+										<img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65" height="65"/>
+										<div class="flex-grow-1 flex-shrink-1">
+											<div>
+												<div class="d-flex justify-content-between align-items-center">
+													<p class="mb-1">
+														Maria Smantha
+														<span class="small">- 2 hours ago</span>
+													</p>
+													<a href="#!">
+														<i class="fas fa-reply fa-xs"></i>
+														<span class="small">
+															reply</span>
+													</a>
+												</div>
+												<p class="small mb-0">
+													It is a long established fact that a reader will be distracted by
+																										                        the readable content of a page.
+												</p>
+											</div>
+
+											<div class="d-flex flex-start mt-4">
+												<a class="me-3" href="#">
+													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp" alt="avatar" width="65" height="65"/>
+												</a>
+												<div class="flex-grow-1 flex-shrink-1">
+													<div>
+														<div class="d-flex justify-content-between align-items-center">
+															<p class="mb-1">
+																Simona Disa
+																<span class="small">- 3 hours ago</span>
+															</p>
+														</div>
+														<p class="small mb-0">
+															letters, as opposed to using 'Content here, content here',
+																														                            making it look like readable English.
+														</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="d-flex flex-start mt-4">
+												<a class="me-3" href="#">
+													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar" width="65" height="65"/>
+												</a>
+												<div class="flex-grow-1 flex-shrink-1">
+													<div>
+														<div class="d-flex justify-content-between align-items-center">
+															<p class="mb-1">
+																John Smith
+																<span class="small">- 4 hours ago</span>
+															</p>
+														</div>
+														<p class="small mb-0">
+															the majority have suffered alteration in some form, by
+																														                            injected humour, or randomised words.
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="d-flex flex-start mt-4">
+										<img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(12).webp" alt="avatar" width="65" height="65"/>
+										<div class="flex-grow-1 flex-shrink-1">
+											<div>
+												<div class="d-flex justify-content-between align-items-center">
+													<p class="mb-1">
+														Natalie Smith
+														<span class="small">- 2 hours ago</span>
+													</p>
+													<a href="#!">
+														<i class="fas fa-reply fa-xs"></i>
+														<span class="small">
+															reply</span>
+													</a>
+												</div>
+												<p class="small mb-0">
+													The standard chunk of Lorem Ipsum used since the 1500s is
+																										                        reproduced below for those interested. Sections 1.10.32 and
+																										                        1.10.33.
+												</p>
+											</div>
+
+											<div class="d-flex flex-start mt-4">
+												<a class="me-3" href="#">
+													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(31).webp" alt="avatar" width="65" height="65"/>
+												</a>
+												<div class="flex-grow-1 flex-shrink-1">
+													<div>
+														<div class="d-flex justify-content-between align-items-center">
+															<p class="mb-1">
+																Lisa Cudrow
+																<span class="small">- 4 hours ago</span>
+															</p>
+														</div>
+														<p class="small mb-0">
+															Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
+																														                            scelerisque ante sollicitudin commodo. Cras purus odio,
+																														                            vestibulum in vulputate at, tempus viverra turpis.
+														</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="d-flex flex-start mt-4">
+												<a class="me-3" href="#">
+													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(29).webp" alt="avatar" width="65" height="65"/>
+												</a>
+												<div class="flex-grow-1 flex-shrink-1">
+													<div>
+														<div class="d-flex justify-content-between align-items-center">
+															<p class="mb-1">
+																Maggie McLoan
+																<span class="small">- 5 hours ago</span>
+															</p>
+														</div>
+														<p class="small mb-0">
+															a Latin professor at Hampden-Sydney College in Virginia,
+																														                            looked up one of the more obscure Latin words, consectetur
+														</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="d-flex flex-start mt-4">
+												<a class="me-3" href="#">
+													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar" width="65" height="65"/>
+												</a>
+												<div class="flex-grow-1 flex-shrink-1">
+													<div>
+														<div class="d-flex justify-content-between align-items-center">
+															<p class="mb-1">
+																John Smith
+																<span class="small">- 6 hours ago</span>
+															</p>
+														</div>
+														<p class="small mb-0">
+															Autem, totam debitis suscipit saepe sapiente magnam officiis
+																														                            quaerat necessitatibus odio assumenda, perferendis quae iusto
+																														                            labore laboriosam minima numquam impedit quam dolorem!
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
