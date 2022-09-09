@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ajout figure
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		{{ form_start(form) }}
+		{{ form_row(form.name) }}
+		{{ form_row(form.description) }}
+		{{ form_row(form.groupes) }}
+
+		<h3>block images</h3>
+		<ul
+			class="image" data-index="{{ form.image|length > 0 ? form.image|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.image.vars.prototype)|e('html_attr') }}">{# {% for image in form.image %}
+								            <li>{{ form_row(image.url) }}</li>
+								        {% endfor %} #}
+		</ul>
+		<button type="button" class="add_item_link  btn btn-warning" data-collection-holder-class="image">Add images</button>
+
+		<h3>ajout video</h3>
+		<ul class="video" data-index="{{ form.video|length > 0 ? form.video|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.video.vars.prototype)|e('html_attr') }}">
+			{% for video in form.video %}
+				<li>{{ form_row(video.url) }}</li>
+			{% endfor %}
+		</ul>
+		<button type="button" class="add_item_link btn btn-warning" data-collection-holder-class="video">Add a video</button>
+
+        <div class="">
+		  <button type="submit" class="btn btn-primary mt-5 ">Enregistrer</button>
+		</div>
+		
+		{{form_end(form)}}
+
+	</div>
+
+{% endblock %}

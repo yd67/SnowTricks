@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TriksRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TriksRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=TriksRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Triks
 {
@@ -50,12 +52,12 @@ class Triks
     private $groupes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="triks")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="triks",cascade={"persist"},orphanRemoval=true)
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="triks")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="triks",cascade={"persist"},orphanRemoval=true)
      */
     private $video;
 
@@ -74,6 +76,27 @@ class Triks
         $this->image = new ArrayCollection();
         $this->video = new ArrayCollection();
         $this->comments = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+     /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new DateTime();
+    }
+
+     /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTime();
     }
 
    

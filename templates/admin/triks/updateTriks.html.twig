@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Modifier figure
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<div class="example-wrapper">
+			<h1>Hello ! ✅</h1>
+		</div>
+
+		{{ form_start(form) }}
+		{{ form_widget(form._token) }}
+
+		{{ form_row(form.name) }}
+		{{ form_row(form.description) }}
+		{{ form_row(form.groupes) }}
+
+        
+		<div> 
+		{% if form.image.0 is defined %}
+			<h3>image a la une </h3>
+			<img style="height:340px" class="img-fluid img-thumbnail" src="{{asset('uploads/triks/' ~ form.image.0.vars.value.filename )}}" alt="">
+			{{ form_widget(form.image.0) }} 
+		{% endif %}
+		</div>
+
+		<h3>Liste images</h3>
+
+		<ul
+			class="image" data-index="{{ form.image|length > 0 ? form.image|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.image.vars.prototype)|e('html_attr') }}">
+			{# {% for image in form.image %}
+							<li>{{ form_row(image.url) }}</li>
+						{% endfor %} #}
+			<div class="row pb-5">
+				{% for image in form.image %}
+				    {% if loop.index > 1 %}
+						<div class="col-4">
+							<a href="{{path('delete_trik_image',{id:image.vars.value.id ,slug:trik.slug}) }}" class="btn btn-danger">x</a>
+							<img style="height:240px" class="img-fluid img-thumbnail" src="{{asset('uploads/triks/' ~ image.vars.value.filename )}}" alt="">
+							<li>{{ form_widget(image) }}</li>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+
+			<div class="row text-center text-lg-start">
+				{# {% for image in trik.image %}
+					<div class="col-lg-3 col-md-4 col-6">
+						<a href="#" class="d-block mb-4 h-100">
+							<img style="height:240px" class="img-fluid img-thumbnail" src="{{asset('uploads/triks/' ~ image.filename )}}" alt="">
+						</a>
+					</div>
+					<a href="{{path('delete_trik_image',{id:image.id ,slug:trik.slug}) }}" class="btn btn-danger">x</a>
+				{% endfor %} #}
+			</div>
+		</ul>
+
+		<div class="pb-5">
+			<small>* ajout d'une ou plusieurs images</small>
+			<button type="button" class="add_item_link" data-collection-holder-class="image">Add images</button>
+		</div>
+		{# {{ form_row(form.images) }} #}
+
+		<h3>Liste video</h3>
+		<ul class="video" data-index="{{ form.video|length > 0 ? form.video|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.video.vars.prototype)|e('html_attr') }}">
+			<div class="row">
+				{% for video in form.video %}
+					<div>
+						<iframe width="560" height="315" src="{{video.vars.value.url}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						<li>{{ form_row(video) }}</li>
+					</div>
+				{% endfor %}
+			</div>
+		</ul>
+	</ul>
+	<div class="pb-5 pt-4">
+		<small>* ajout d'un ou plusieurs videos </small>
+		<button type="button" class="add_item_link" data-collection-holder-class="video">Add a video</button>
+	</div>
+
+	<div class="row">
+		<div class="col-2">
+			<a href="{{ path('delete_trik',{id:trik.id}) }}" class="btn btn-danger mr-5">Supprimer</a>
+		</div>
+		<div class="col-2">
+			<button type="submit" class="btn btn-primary ml-5 ">Enregistrer</button>
+		</div>
+	</div>
+
+	{{form_end(form)}}
+
+</div>{% endblock %}
