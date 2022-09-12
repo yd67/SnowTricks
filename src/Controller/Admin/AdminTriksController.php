@@ -122,13 +122,14 @@ class AdminTriksController extends AbstractController
 
         if (!empty($triks)) {
 
-            $this->em->remove($triks) ;
-            $this->em->flush();
-
             $images = $triks->getImage() ;
             foreach ($images as $image) {
                 $this->upload->remove($image->getFilename()) ;
             }
+
+            $this->em->remove($triks) ;
+            $this->em->flush();
+
 
             $this->addFlash(
                 'success',
@@ -147,10 +148,10 @@ class AdminTriksController extends AbstractController
         $image = $imageRepo->findOneBy(['id' => $id ,]) ;
         if (!empty($image)) {
 
+            $this->upload->remove($image->getFilename());
+
             $this->em->remove($image);
             $this->em->flush();
-
-            $this->upload->remove($image->getFilename());
 
             $this->addFlash(
                 'success',

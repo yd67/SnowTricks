@@ -44,7 +44,7 @@
 	</section>
 
 	<h1 class="text-center">
-		{{trik.name}}
+		{{trik.name|capitalize}}
 	</h1>
 
 	<section class="p-4">
@@ -73,34 +73,39 @@
 			<div class="row d-flex justify-content-center">
 				<div class="col-md-12 col-lg-10 col-xl-8">
                 {% if is_granted('ROLE_USER') %}
-					<h4 class="text-center mb-4 pb-2">laisser un commentaire</h4>
-					<div class="card-footer py-3 border-0 mb-5" style="background-color: #f8f9fa;">
+					<h4 class="text-center mb-4 pb-2">Laisser un commentaire</h4>
+					<div class="card-footer py-3 border-0 mb-5 p-3" style="background-color: #f8f9fa;">
+					{{ form_start(commentForm) }}
 						<div class="d-flex flex-start w-100">
 							<img class="rounded-circle shadow-1-strong me-3" src="{{asset('uploads/user/' ~ app.user.avatar )}}" alt="avatar" width="40" height="40"/>
 							<div class="form-outline w-100">
-								<textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;"></textarea>
-								<label class="form-label" for="textAreaExample">Message</label>
+							{{ form_widget(commentForm.content,{'attr': {'class': 'form-control'}} ) }}
+							{{ form_label(commentForm.content) }}
+								{# <textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;"></textarea>
+								<label class="form-label" for="textAreaExample">Message</label> #}
 							</div>
 						</div>
 						<div class="float-end mt-2 pt-1">
-							<button type="button" class="btn btn-primary btn-sm">poster</button>
+							<button type="submit" class="btn btn-primary btn-sm">poster</button>
 						</div>
+					{{ form_end(commentForm) }}
 					</div>
                 {% endif %}
 					<div class="card border-start-0 border-top-3 border-end-0 border-bottom-3 border border-dark">
 						<div class="card-body p-4">
-							<h4 class="text-center mb-4 pb-2">Nested comments section</h4>
+							<h4 class="text-center mb-4 pb-2">Avis de la communauté </h4>
 
 							<div class="row">
 								<div class="col">
-									<div class="d-flex flex-start">
-										<img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65" height="65"/>
+								{% for comment in trik.comments %}
+									<div class="d-flex flex-start pt-4">
+										<img class="rounded-circle shadow-1-strong me-3" src="{{asset('uploads/user/' ~ comment.creator.avatar)}}" alt="avatar" width="65" height="65"/>
 										<div class="flex-grow-1 flex-shrink-1">
 											<div>
 												<div class="d-flex justify-content-between align-items-center">
 													<p class="mb-1">
-														Maria Smantha
-														<span class="small">- 2 hours ago</span>
+														{{comment.creator.username|capitalize}}
+														<span class="small">- publié le {{ comment.createdAt|date("m/d/Y", "Europe/Paris") }}</span>
 													</p>
 													<a href="#!">
 														<i class="fas fa-reply fa-xs"></i>
@@ -109,8 +114,7 @@
 													</a>
 												</div>
 												<p class="small mb-0">
-													It is a long established fact that a reader will be distracted by
-																										                        the readable content of a page.
+													{{comment.content}}
 												</p>
 											</div>
 
@@ -155,8 +159,9 @@
 											</div>
 										</div>
 									</div>
+								{% endfor %}
 
-									<div class="d-flex flex-start mt-4">
+									{# <div class="d-flex flex-start mt-4">
 										<img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(12).webp" alt="avatar" width="65" height="65"/>
 										<div class="flex-grow-1 flex-shrink-1">
 											<div>
@@ -240,7 +245,7 @@
 												</div>
 											</div>
 										</div>
-									</div>
+									</div> #}
 								</div>
 							</div>
 						</div>
