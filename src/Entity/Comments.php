@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentsRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=CommentsRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comments
 {
@@ -54,10 +56,19 @@ class Comments
         $this->responses = new ArrayCollection();
     }
 
+     /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
