@@ -15,11 +15,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TrikController extends AbstractController
 {
 
-    public function __construct(EntityManagerInterface $entityManager,TriksRepository $triksRepo,CommentsRepository $commentRepo )
+    public function __construct(EntityManagerInterface $entityManager,TriksRepository $triksRepo,CommentsRepository $commentsRepo )
     {
         $this->em = $entityManager;
         $this->triksRepo = $triksRepo ;
-        $this->commentsRepo = $commentRepo ;
+        $this->commentsRepo  = $commentsRepo ;
     }
 
     /**
@@ -49,9 +49,9 @@ class TrikController extends AbstractController
             $comment->setCreator($user);
             $comment->setTriks($trik);
             
-            $parent = $commentForm->get('parent')->getData() ;
-            if ($parent != null) {
-                $parentComment = $this->commentRepo->findOneBy(['id' => $parent]) ;
+            $parentField = $commentForm->get('parent')->getData() ;
+            if ($parentField != null) {
+                $parentComment = $this->commentsRepo->findOneBy(['id' => $parentField]) ;
                 $comment->setParent($parentComment) ;
             }
 
