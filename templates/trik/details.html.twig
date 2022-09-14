@@ -35,7 +35,7 @@
 			<div class="row">
 				{% for video in trik.video %}
 					<div class="col-4">
-						<iframe width="380" height="215" src="{{video.url}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						<iframe width="380" height="215" src="{{video.url}}" frameborder="0" allowfullscreen></iframe>
 
 					</div>
 				{% endfor %}
@@ -72,52 +72,60 @@
 		<div class="container my-5 py-5">
 			<div class="row d-flex justify-content-center">
 				<div class="col-md-12 col-lg-10 col-xl-8">
-                {% if is_granted('ROLE_USER') %}
-					<h4 class="text-center mb-4 pb-2">Laisser un commentaire</h4>
-					<div class="card-footer py-3 border-0 mb-5 p-3" style="background-color: #f8f9fa;">
-					{{ form_start(commentForm ,{'attr': {'id': 'comment-form'}}) }}
-						<div class="d-flex flex-start w-100">
-							<img class="rounded-circle shadow-1-strong me-3" src="{{asset('uploads/user/' ~ app.user.avatar )}}" alt="avatar" width="40" height="40"/>
-							<div class="form-outline w-100">
-							{{ form_widget(commentForm.content,{'attr': {'class': 'form-control'}} ) }}
-							{{ form_label(commentForm.content) }}
-							{{ form_row(commentForm.parent) }}
+					{% if is_granted('ROLE_USER') %}
+						<h4 class="text-center mb-4 pb-2">Laisser un commentaire</h4>
+						<div class="card-footer py-3 border-0 mb-5 p-3" id="form-emplacement">
+							{{ form_start(commentForm ,{'attr': {'id': 'comment-form'}}) }}
+							<div class="d-flex flex-start w-100">
+								<img class="rounded-circle shadow-1-strong me-3" src="{{asset('uploads/user/' ~ app.user.avatar )}}" alt="avatar" width="40" height="40"/>
+								<div class="form-outline w-100">
+									{{ form_label(commentForm.content) }}
+									{{ form_widget(commentForm.content,{'attr': {'class': 'form-control'}} ) }}
+									{{ form_row(commentForm.parent) }}
+								</div>
 							</div>
+							<div class="float-end mt-2 pt-1">
+								<button type="submit" class="btn btn-primary btn-sm">poster</button>
+							</div>
+							{{ form_end(commentForm) }}
 						</div>
-						<div class="float-end mt-2 pt-1">
-							<button type="submit" class="btn btn-primary btn-sm">poster</button>
-						</div>
-					{{ form_end(commentForm) }}
-					</div>
-                {% endif %}
+					{% endif %}
 					<div class="card border-start-0 border-top-3 border-end-0 border-bottom-3 border border-dark">
 						<div class="card-body p-5">
-							<h4 class="text-center mb-4 pb-2">Avis de la communauté </h4>
+							<h4 class="text-center mb-4 pb-2">Avis de la communauté
+							</h4>
+							{# default this button is hide js (treatement) #}
+							<a id="annuler-reponse" class="small text-danger pe-2" style="cursor: pointer;">annuler</a>
 
 							<div class="row">
 								<div class="col">
-								{% for comment in trik.comments %}
-								    {% if comment.parent is null %}
-									<div class="d-flex flex-start pt-4">
-										<img class="rounded-circle shadow-1-strong me-3" src="{{asset('uploads/user/' ~ comment.creator.avatar)}}" alt="avatar" width="65" height="65"/>
-										<div class="flex-grow-1 flex-shrink-1">
-											<div>
-												<div id="comment-{{comment.id}}" class="d-flex justify-content-between align-items-center">
-													<p class="mb-1">
-														{{comment.creator.username|capitalize}}
-														<span class="small">- publié le {{ comment.createdAt|date("m/d/Y", "Europe/Paris") }}</span>
-													</p>
-													<a href="#!">
-														<i class="fas fa-reply fa-xs"></i>
-														<span  data-id="{{comment.id}}" class="small  reply">
-															repondre</span>
-													</a>
-												</div>
-												<p class="small mb-0">
-													{{comment.content}}
-												</p>
-											</div>
-                                              {% for response in comment.responses %}
+									{% for comment in trik.comments %}
+										{% if comment.parent is null %}
+											<div class="d-flex flex-start pt-4">
+												<img class="rounded-circle shadow-1-strong me-3" src="{{asset('uploads/user/' ~ comment.creator.avatar)}}" alt="avatar" width="65" height="65"/>
+												<div class="flex-grow-1 flex-shrink-1">
+													<div>
+														<div id="comment-{{comment.id}}" class="d-flex justify-content-between align-items-center">
+															<p class="mb-1">
+																{{comment.creator.username|capitalize}}
+																<span class="small">- publié le
+																	{{ comment.createdAt|date("d/m/Y", "Europe/Paris") }}</span>
+															</p>
+
+															{% if is_granted('ROLE_USER') %}
+																<div id="annuler-position-{{comment.id}}"></div>
+																<a href="#!">
+																	<i class="fas fa-reply fa-xs"></i>
+																	<span data-id="{{comment.id}}" class="small  reply">
+																		repondre</span>
+																</a>
+															{% endif %}
+														</div>
+														<p class="small mb-0">
+															{{comment.content}}
+														</p>
+													</div>
+													{% for response in comment.responses %}
 														<div class="d-flex flex-start mt-4 bg-light">
 															<a class="me-3" href="#">
 																<img class="rounded-circle shadow-1-strong" src="{{asset('uploads/user/' ~ response.creator.avatar)}}" alt="avatar" width="65" height="65"/>
@@ -127,107 +135,108 @@
 																	<div class="d-flex justify-content-between align-items-center">
 																		<p class="mb-1">
 																			{{response.creator.username|capitalize}}
-																			<span class="small">- publié le {{ response.createdAt|date("m/d/Y", "Europe/Paris") }}</span>
+																			<span class="small">- publié le
+																				{{ response.createdAt|date("d/m/Y", "Europe/Paris") }}</span>
 																		</p>
 																	</div>
 																	<p class="small mb-0">
-																	   {{response.content}}
+																		{{response.content}}
 																	</p>
 																</div>
 															</div>
 														</div>
-											  {% endfor %}
+													{% endfor %}
 
-										</div>
-									</div>
-									{% endif %}
-								{% endfor %}
+												</div>
+											</div>
+										{% endif %}
+									{% endfor %}
 
 									{# <div class="d-flex flex-start mt-4">
-										<img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(12).webp" alt="avatar" width="65" height="65"/>
-										<div class="flex-grow-1 flex-shrink-1">
-											<div>
-												<div class="d-flex justify-content-between align-items-center">
-													<p class="mb-1">
-														Natalie Smith
-														<span class="small">- 2 hours ago</span>
-													</p>
-													<a href="#!">
-														<i class="fas fa-reply fa-xs"></i>
-														<span class="small">
-															reply</span>
-													</a>
-												</div>
-												<p class="small mb-0">
-													The standard chunk of Lorem Ipsum used since the 1500s is
-																										                        reproduced below for those interested. Sections 1.10.32 and
-																										                        1.10.33.
-												</p>
-											</div>
-
-											<div class="d-flex flex-start mt-4">
-												<a class="me-3" href="#">
-													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(31).webp" alt="avatar" width="65" height="65"/>
-												</a>
-												<div class="flex-grow-1 flex-shrink-1">
-													<div>
-														<div class="d-flex justify-content-between align-items-center">
-															<p class="mb-1">
-																Lisa Cudrow
-																<span class="small">- 4 hours ago</span>
-															</p>
-														</div>
-														<p class="small mb-0">
-															Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-																														                            scelerisque ante sollicitudin commodo. Cras purus odio,
-																														                            vestibulum in vulputate at, tempus viverra turpis.
-														</p>
-													</div>
-												</div>
-											</div>
-
-											<div class="d-flex flex-start mt-4">
-												<a class="me-3" href="#">
-													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(29).webp" alt="avatar" width="65" height="65"/>
-												</a>
-												<div class="flex-grow-1 flex-shrink-1">
-													<div>
-														<div class="d-flex justify-content-between align-items-center">
-															<p class="mb-1">
-																Maggie McLoan
-																<span class="small">- 5 hours ago</span>
-															</p>
-														</div>
-														<p class="small mb-0">
-															a Latin professor at Hampden-Sydney College in Virginia,
-																														                            looked up one of the more obscure Latin words, consectetur
-														</p>
-													</div>
-												</div>
-											</div>
-
-											<div class="d-flex flex-start mt-4">
-												<a class="me-3" href="#">
-													<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar" width="65" height="65"/>
-												</a>
-												<div class="flex-grow-1 flex-shrink-1">
-													<div>
-														<div class="d-flex justify-content-between align-items-center">
-															<p class="mb-1">
-																John Smith
-																<span class="small">- 6 hours ago</span>
-															</p>
-														</div>
-														<p class="small mb-0">
-															Autem, totam debitis suscipit saepe sapiente magnam officiis
-																														                            quaerat necessitatibus odio assumenda, perferendis quae iusto
-																														                            labore laboriosam minima numquam impedit quam dolorem!
-														</p>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div> #}
+																			<img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(12).webp" alt="avatar" width="65" height="65"/>
+																			<div class="flex-grow-1 flex-shrink-1">
+																				<div>
+																					<div class="d-flex justify-content-between align-items-center">
+																						<p class="mb-1">
+																							Natalie Smith
+																							<span class="small">- 2 hours ago</span>
+																						</p>
+																						<a href="#!">
+																							<i class="fas fa-reply fa-xs"></i>
+																							<span class="small">
+																								reply</span>
+																						</a>
+																					</div>
+																					<p class="small mb-0">
+																						The standard chunk of Lorem Ipsum used since the 1500s is
+																																			                        reproduced below for those interested. Sections 1.10.32 and
+																																			                        1.10.33.
+																					</p>
+																				</div>
+									
+																				<div class="d-flex flex-start mt-4">
+																					<a class="me-3" href="#">
+																						<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(31).webp" alt="avatar" width="65" height="65"/>
+																					</a>
+																					<div class="flex-grow-1 flex-shrink-1">
+																						<div>
+																							<div class="d-flex justify-content-between align-items-center">
+																								<p class="mb-1">
+																									Lisa Cudrow
+																									<span class="small">- 4 hours ago</span>
+																								</p>
+																							</div>
+																							<p class="small mb-0">
+																								Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
+																																							                            scelerisque ante sollicitudin commodo. Cras purus odio,
+																																							                            vestibulum in vulputate at, tempus viverra turpis.
+																							</p>
+																						</div>
+																					</div>
+																				</div>
+									
+																				<div class="d-flex flex-start mt-4">
+																					<a class="me-3" href="#">
+																						<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(29).webp" alt="avatar" width="65" height="65"/>
+																					</a>
+																					<div class="flex-grow-1 flex-shrink-1">
+																						<div>
+																							<div class="d-flex justify-content-between align-items-center">
+																								<p class="mb-1">
+																									Maggie McLoan
+																									<span class="small">- 5 hours ago</span>
+																								</p>
+																							</div>
+																							<p class="small mb-0">
+																								a Latin professor at Hampden-Sydney College in Virginia,
+																																							                            looked up one of the more obscure Latin words, consectetur
+																							</p>
+																						</div>
+																					</div>
+																				</div>
+									
+																				<div class="d-flex flex-start mt-4">
+																					<a class="me-3" href="#">
+																						<img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar" width="65" height="65"/>
+																					</a>
+																					<div class="flex-grow-1 flex-shrink-1">
+																						<div>
+																							<div class="d-flex justify-content-between align-items-center">
+																								<p class="mb-1">
+																									John Smith
+																									<span class="small">- 6 hours ago</span>
+																								</p>
+																							</div>
+																							<p class="small mb-0">
+																								Autem, totam debitis suscipit saepe sapiente magnam officiis
+																																							                            quaerat necessitatibus odio assumenda, perferendis quae iusto
+																																							                            labore laboriosam minima numquam impedit quam dolorem!
+																							</p>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div> #}
 								</div>
 							</div>
 						</div>
@@ -237,5 +246,5 @@
 		</div>
 	</section>
 
-<script src="{{asset('js/detailTrik.js')}}"></script>
+	<script src="{{asset('js/detailTrik.js')}}"></script>
 {% endblock %}
