@@ -23,12 +23,15 @@ class TriksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name',TextType::class)
-            ->add('description',TextareaType::class)
+            ->add('name',TextType::class,[
+                'label'=> 'Titre'
+            ])
+            ->add('description',TextareaType::class,[
+                'label' => 'Description'
+            ])
             ->add('groupes',EntityType::class,[
                 'class'=> Group::class,
-                'choice_label'=> 'Groupes',
-                'label'=>'Groupe'
+                'label'=>'Categorie'
             ])
             ->add('image', CollectionType::class, [
                 'entry_type' => ImageType::class,
