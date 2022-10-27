@@ -18,11 +18,20 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class ResetPasswordController extends AbstractController
 {
 
+    /** @var TokenGeneratorInterface */
+    private $tokenGenerator;
+
+    /** @var EntityManagerInterface */
+    private $em ;
+
+    /** @var UserRepository */
+    private $userRepo ;
+
     public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepo, TokenGeneratorInterface $token)
     {
         $this->em = $entityManager;
         $this->userRepo = $userRepo;
-        $this->token = $token;
+        $this->tokenGenerator = $token;
     }
 
     /**
@@ -38,7 +47,7 @@ class ResetPasswordController extends AbstractController
             $user = $this->userRepo->findOneBy(['email' => $email]);
 
             if (!empty($user)) {
-                $token = $this->token->generateToken();
+                $token = $this->tokenGenerator->generateToken();
                 $user->setToken($token);
 
                 $this->em->persist($user);
@@ -46,12 +55,12 @@ class ResetPasswordController extends AbstractController
 
                 $url = $this->generateUrl('app_new_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
                 $mailer->sendResetPass($email, $url);
-
-                $this->addFlash(
-                    'warning',
-                    'si votre compte existe, un email de réinitialisation de mot de passe vous a été envoyé'
-                );
+               
             }
+            $this->addFlash(
+                'warning',
+                'si votre compte existe, un email de réinitialisation de mot de passe vous a été envoyé'
+            );
             // return $this->redirectToRoute('app_reset_password') ;
 
         }

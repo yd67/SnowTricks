@@ -3,7 +3,6 @@ var formPosition = document.getElementById('form-emplacement');
 var btnAnuller = document.getElementById('annuler-reponse')
 var btn = document.querySelectorAll('.reply')
 
-
 btnAnuller.style.visibility = 'hidden' ;
 
 	btn.forEach(function(element) {

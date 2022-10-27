@@ -1,78 +1,65 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}Hello HomeController!
+{% block title %}Accueil snowTriks
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('css/home.css')}}">
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-	<div class="container">
 
-		{# {% for type, messages in app.flashes(['success', 'warning']) %}
-            {% for message in messages %}
-			    {{ utils.alert(message, type) }}
-            {% endfor %}
-		{% endfor %} #}
+	<button type="button" class="btn btn-dark btn-floating btn-lg" id="btn-back-to-top">
+		<i class="fas fa-arrow-up"></i>
+	</button>
+	<button type="button" class="btn btn-dark btn-floating btn-lg" id="btn-go-down">
+		<i class="fas fa-arrow-down"></i>
+	</button>
 
-    {# {% for  message in app.flashes('success') %}
-        <div class="alert alert-success" role="alert">
-        {{ message }}
-        </div>
-    {% endfor %} #}
-
-		<div class="example-wrapper">
-			<h1>Hello
-				{{ controller_name }}! ✅</h1>
-
-			This friendly message is coming from:
-			<ul>
-				<li>Your controller at
-					<code>
-						<a href="{{ 'C:/wamp64/www/OpenClassrooms/snowtricks/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a>
-					</code>
-				</li>
-				<li>Your template at
-					<code>
-						<a href="{{ 'C:/wamp64/www/OpenClassrooms/snowtricks/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a>
-					</code>
-				</li>
-			</ul>
-
-			<a class="btn btn-primary" href="{{ path('admin_add_triks') }}">ajout figures</a>
-			
-		</div>
-
-
-		<div class="row pt-5">
-	  {% for trik in triks %}
-     	 <!-- Gallery item -->
-			<div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-				<div class="bg-white rounded shadow-sm">
-				{% if  trik.image.0.filename is defined  %} 
-				     <img src="{{asset('uploads/triks/' ~ trik.image.0.filename )}}" alt="" class="img-fluid card-img-top" style="height:222px" >
-				{% else %}
-					 <img src="{{asset('uploads/triks/defaultTriks.jpg' )}}" alt="" class="img-fluid card-img-top">
-				{% endif %}
-				<div class="p-4">
-					<h5> <a href="{{path('app_trik_detail',{slug: trik.slug}) }}" class="text-dark">{{trik.name}}</a></h5>
-				</div>
-				</div>
+	<div id="bg-home" class="bg-home bg-opacity-25">
+		<div class="container h-100">
+			<div class="d-flex justify-content-center align-items-center h-100">
+				<h1 id="titre" class="fw-bolder">
+					SnowTriks
+				</h1>
 			</div>
-		<!-- End -->
-	  {% endfor %}
 
-    </div>
-
+		</div>
 	</div>
+
+	<div class="container mb-5">
+		<div class="row pt-5">
+			{% for trik in triks %}
+				<div class="col-md-6 col-lg-4 block  mt-5">
+					<div class="card border-0 transform-on-hover">
+						<a
+							class="lightbox" href="{{path('app_trik_detail',{slug: trik.slug}) }}">
+							{# <img src="images/F4.jpg" class="card-img-top"> #}
+							{% if  trik.image.0.filename is defined  %}
+								<img src="{{asset('uploads/triks/' ~ trik.image.0.filename )}}" alt="" class=" card-img-top">
+							{% else %}
+								<img src="{{asset('uploads/triks/defaultTriks.jpg' )}}" alt="" class="card-img-top">
+							{% endif %}
+						</a>
+						<div class="card-body text-center">
+							<a class="lightbox text-decoration-none text-dark" href="{{path('app_trik_detail',{slug: trik.slug}) }}">
+								<h4>{{trik.name}}</h4>
+							</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="d-flex justify-content-center mt-5 mb-5">
+			<button id="load" class="btn btn-dark">
+				Voir Plus
+			</button>
+		</div>
+	</div>
+
+	{% block javascript %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="{{asset('js/home.js')}}"></script>
+	{% endblock %}
 {% endblock %}
