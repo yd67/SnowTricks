@@ -1,8 +1,7 @@
-
-#bg-home{
-	width:100% ;
-	height: 92vh;
-    background:url(../img/home/jorg-angeli-eW7v3RTVnqM-unsplash.jpg);
+#bg-home {
+    width: 100%;
+    height: 92vh;
+    background: url(../img/home/jorg-angeli-eW7v3RTVnqM-unsplash.jpg);
     background-size: cover;
     object-fit: cover;
 }
@@ -32,7 +31,6 @@
     display: none;
 }
 
-.block{
-	display: none ;
+.block {
+    display: none;
 }
-
