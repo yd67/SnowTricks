@@ -1,30 +1,30 @@
-let form = document.getElementById('comment-form');
-let formPosition = document.getElementById('form-emplacement');
-let btnAnuller = document.getElementById('annuler-reponse')
-let btn = document.querySelectorAll('.reply')
+var form =  document.getElementById('comment-form');
+var formPosition = document.getElementById('form-emplacement');
+var btnAnuller = document.getElementById('annuler-reponse')
+var btn = document.querySelectorAll('.reply')
 
-btnAnuller.style.visibility = 'hidden';
+btnAnuller.style.visibility = 'hidden' ;
 
-btn.forEach(function (element) {
-	element.addEventListener('click', function () {
+	btn.forEach(function(element) {
+  		element.addEventListener('click', function() {
 
-		let id = this.getAttribute('data-id');
-		let comment = document.getElementById('comment-' + id);
+		var id = this.getAttribute('data-id') ;
+		var comment = document.getElementById('comment-'+id);
 
-		comment.after(form);
-		document.querySelector('#comments_parent').value = id;
-
-		let divPosition = document.getElementById('annuler-position-' + id);
-		divPosition.after(btnAnuller);
-		btnAnuller.style.visibility = 'visible';
+        comment.after(form) ;
+		document.querySelector('#comments_parent').value = id ;
+		
+		var divPosition = document.getElementById('annuler-position-'+id);
+		divPosition.after(btnAnuller) ;
+		btnAnuller.style.visibility = 'visible' ;
+  		})
 	})
-})
+    
+	btnAnuller.addEventListener("click", myFunction);
 
-btnAnuller.addEventListener("click", myFunction);
+	function myFunction() {
+		document.querySelector('#comments_parent').value = null ;
 
-function myFunction() {
-	document.querySelector('#comments_parent').value = null;
-
-	formPosition.after(form);
-	btnAnuller.style.visibility = 'hidden';
-} 
+		formPosition.after(form);
+		btnAnuller.style.visibility = 'hidden' ;
+	} 
