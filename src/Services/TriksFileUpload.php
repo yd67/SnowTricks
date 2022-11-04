@@ -2,8 +2,6 @@
 
 namespace App\Services ;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -32,11 +30,9 @@ class TriksFileUpload
 
     public function remove($filename)
     {
-        $fs = new Filesystem ;
         $file = $this->destination."/".$filename ;
-
-        if ($fs->exists($file)) {
-            $fs->remove($file) ;
+        if (is_file($file)) {
+            unlink($file);
         }
     }
 }

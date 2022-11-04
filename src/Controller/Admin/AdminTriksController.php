@@ -103,7 +103,7 @@ class AdminTriksController extends AbstractController
                 'success',
                 'modification réussi'
             );
-            // return $this->redirectToRoute('app_home') ;
+             return $this->redirectToRoute('app_trik_detail',['slug' => $trik->getSlug()]);
         }
 
         return $this->render('admin/triks/updateTriks.html.twig',[

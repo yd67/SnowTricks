@@ -37,7 +37,7 @@
 						{% for image in trik.image %}
 							{% if loop.index > 1 %}
 								<div class="col-6 col-sm-4">
-									<img class="img-fluid img-thumbnail trik-img" src="{{asset('uploads/triks/' ~ image.filename )}}" alt="">
+									<img class="img-fluid img-thumbnail " src="{{asset('uploads/triks/' ~ image.filename )}}" alt="">
 								</div>
 							{% endif %}
 						{% endfor %}

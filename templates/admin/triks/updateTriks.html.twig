@@ -16,7 +16,7 @@
 		{{ form_start(form) }}
 		<section id="section1" {% if form.image.0 is defined %} style="background-image: url({{asset('uploads/triks/' ~ form.image.0.vars.value.filename )}});" {% else %} style="background-image: url( {{asset('uploads/triks/defaultTriks.jpg') }});" {% endif %}>
 			<div class=" d-flex justify-content-end me-5 mt-3">
-				{{ form_widget(form.image.0,{'attr': {'class': 'form-control', 'type': 'file'} }) }}
+			{% if form.image.0 is defined %}{{ form_widget(form.image.0,{'attr': {'class': 'form-control', 'type': 'file'} }) }} {% endif %}
 			</div>
 		</section>
 		<section class="d-flex justify-content-center pt-4 ">
@@ -28,7 +28,7 @@
 							{% for image in form.image %}
 								{% if loop.index > 1 %}
 									<div class="col-6 col-sm-4 mb-5 ">
-										<img style="height:150px" class="img-fluid img-thumbnail" src="{{asset('uploads/triks/' ~ image.vars.value.filename )}}" alt="">
+										<img  class="img-fluid img-thumbnail" src="{{asset('uploads/triks/' ~ image.vars.value.filename )}}" alt="">
 										<div class="d-flex justify-content-center">
 											<a href="{{path('delete_trik_image',{id:image.vars.value.id ,slug:trik.slug}) }}" class="btn btn-outline-danger btn-sm">
 												<i class="fa-solid fa-trash-can"></i>
