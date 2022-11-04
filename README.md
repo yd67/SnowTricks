@@ -1,6 +1,8 @@
 
 # SnowTriks - Projet Symfony OpenClassrooms
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/29a59771543e458c9aa25bb23cda1ddd)](https://www.codacy.com/gh/yd67/SnowTricks/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yd67/SnowTricks&amp;utm_campaign=Badge_Grade)
+
 
 ![Logo](https://user.oc-static.com/upload/2016/11/17/14793747168201_snowboard_neige_figure_saut_shutterstock_3516624621.jpg)
 
