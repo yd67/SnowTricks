@@ -3,7 +3,6 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/29a59771543e458c9aa25bb23cda1ddd)](https://www.codacy.com/gh/yd67/SnowTricks/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yd67/SnowTricks&amp;utm_campaign=Badge_Grade)
 
-
 ![Logo](https://user.oc-static.com/upload/2016/11/17/14793747168201_snowboard_neige_figure_saut_shutterstock_3516624621.jpg)
 
 
@@ -35,24 +34,50 @@ Pour implémenter ces fonctionnalités, vous devez créer les pages suivantes :
 
   **Etape 1 : Cloner le Repository sur votre serveur.**
 
-  **Etape 2 : Créer Une base de données et importer le fichier "01snowtriks.sql" qui se trouve a la racine du projet .**
+  **Etape 2 : Installer les dépendances .**
 
-  **Etape 3 : Changer les informations de  connexion a la base de données .** 
- 
-  ```http 
- fichier:  .env    (a la racine du projet )
-
-   DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8&charset=utf8mb4"
+   ```http 
+  composer install
   ```
+  **Etape 3 : Création de la base de données.**
+  
+  Dans le fichier .env (racine) changer le " DATABASE_URL " ,et lancer la 
+  commande suivante afin de créer votre base de données.
+
+ ```http 
+  php bin/console doctrine:database:create
+  ```
+  Effectué la migration de la base avec la commande :
+
+  ```http 
+  php bin/console make:migration
+  ```
+
+  suivie de la commande :
+
+  ```http 
+   php bin/console doctrine:migrations:migrate
+  ```
+
+
+  **Etape 4 : Remplir la bdd de données d'exemple** 
+ 
+ lancer la commande :
+  ```http 
+  php bin/console doctrine:fixtures:load
+  ```
+
+  l'ensemble des utilisateurs crée ont pour mot de passe "test"
   
 
-   **Etape 4 : Changer les informations de configuration pour l'envoie de mail .** 
+   **Etape 5 : Changer la configuration du mailer dsn .** 
  
+ dans le .env veillez modifié la ligne :
   ```http 
   MAILER_DSN=smtp://localhost:1025 
   ```
 
- 😄 c'est terminer .
+ 😄 c'est terminé. 
 
  
  
