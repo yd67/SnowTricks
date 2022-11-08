@@ -16,14 +16,14 @@ btn.forEach(function (element) {
 		let divPosition = document.getElementById('annuler-position-' + id);
 		divPosition.after(btnAnuller);
 		btnAnuller.style.visibility = 'visible';
+
 	})
-})
+    
+	btnAnuller.addEventListener("click", myFunction);
 
-btnAnuller.addEventListener("click", myFunction);
+	function myFunction() {
+		document.querySelector('#comments_parent').value = null ;
 
-function myFunction() {
-	document.querySelector('#comments_parent').value = null;
-
-	formPosition.after(form);
-	btnAnuller.style.visibility = 'hidden';
-} 
+		formPosition.after(form);
+		btnAnuller.style.visibility = 'hidden' ;
+	} 

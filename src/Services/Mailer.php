@@ -25,4 +25,18 @@ class Mailer
         ]);
         $this->mailer->send($email);
     }
+
+    public function sendVerifEmail($email,$url)
+    {
+        $email = (new TemplatedEmail())
+        ->from('snowtriks@gmail.com')
+        ->to($email)
+        ->subject('Réinitilisation mot de passe')
+        ->htmlTemplate('mail/verifEmail.html.twig')
+        ->context([
+            'url' => $url
+        ]);
+        $this->mailer->send($email);
+
+    }
 }

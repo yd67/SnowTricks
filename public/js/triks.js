@@ -40,3 +40,4 @@ document
   .forEach((tag) => {
     addTagFormDeleteLink(tag)
   })
+

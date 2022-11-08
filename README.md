@@ -30,6 +30,14 @@ Pour implémenter ces fonctionnalités, vous devez créer les pages suivantes :
 - la page de modification d'une figure.
 - la page de présentation d’une figure (contenant l’espace de discussion commun autour d’une figure).
 
+
+## Prérequis
+
+ - PHP 7.2.5
+ - [composer](https://getcomposer.org)
+ - [Symfony CLI](https://symfony.com/download)
+  
+
 ## Installation du projet
 
   **Etape 1 : Cloner le Repository sur votre serveur.**
@@ -81,8 +89,6 @@ Pour implémenter ces fonctionnalités, vous devez créer les pages suivantes :
 
  
  
-
-
 ## Auteur
 
 - [Darius Yvens ](https://github.com/yd67)

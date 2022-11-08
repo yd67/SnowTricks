@@ -4,6 +4,7 @@
   background: url(../img/home/jorg-angeli-eW7v3RTVnqM-unsplash.jpg);
   background-size: cover;
   object-fit: cover;
+
 }
 
 .card-img-top {
@@ -31,6 +32,8 @@
   display: none;
 }
 
+
 .block {
   display: none;
 }
+
