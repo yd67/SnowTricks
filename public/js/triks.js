@@ -27,7 +27,6 @@ document
 const addTagFormDeleteLink = (item) => {
   const removeFormButton = document.createElement('button');
   removeFormButton.innerText = 'retirer';
-
   item.append(removeFormButton);
 
   removeFormButton.addEventListener('click', (e) => {
