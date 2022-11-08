@@ -35,7 +35,6 @@ function backToTop() {
       behavior: "smooth"
   })
 }
-
 //  partie load more 
 $(document).ready(function() {
   $(".block").slice(0, 6).show();
