@@ -4,6 +4,7 @@ let btnAnuller = document.getElementById('annuler-reponse')
 let btn = document.querySelectorAll('.reply')
 
 btnAnuller.style.visibility = 'hidden';
+
 btn.forEach(function (element) {
 	element.addEventListener('click', function () {
 
@@ -18,6 +19,7 @@ btn.forEach(function (element) {
 		btnAnuller.style.visibility = 'visible';
 
 	})
+})
     
 	btnAnuller.addEventListener("click", myFunction);
 

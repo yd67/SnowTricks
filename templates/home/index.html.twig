@@ -19,6 +19,13 @@
 
 	<div id="bg-home" class="bg-home bg-opacity-25">
 		<div class="container h-100">
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="alert alert-{{label}} text-center" role="alert">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
 			<div class="d-flex justify-content-center align-items-center h-100">
 				<h1 id="titre" class="fw-bolder">
 					SnowTriks

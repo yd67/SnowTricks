@@ -25,6 +25,7 @@
 			{% include "includes/menu.html.twig" %}
 		</header>
 		<div class="container">
+		{% if app.request.get('_route') != 'app_login' and app.request.get('_route') != 'app_home' %}
 			{% for label, messages in app.flashes %}
 				{% for message in messages %}
 					<div class="alert alert-{{label}} text-center" role="alert">
@@ -32,6 +33,7 @@
 					</div>
 				{% endfor %}
 			{% endfor %}
+		{% endif %}
 		</div>
 		<div class="bg-light"> 
 			{% block body %}{% endblock %}

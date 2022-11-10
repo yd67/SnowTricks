@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+ 	{% include "includes/modalTrikDelete.html.twig" %}
 	<div class="container">
 		<section id="section1" {% if trik.image.0.filename is defined %} style="background-image: url({{asset('uploads/triks/' ~ trik.image.0.filename )}});" {% else %} style="background-image: url( {{asset('uploads/triks/defaultTriks.jpg') }});" {% endif %}>
 			<div class=" d-flex justify-content-end me-5 mt-3">
@@ -15,7 +16,8 @@
 						<i class="fas fa-pencil-alt"></i>
 					</a>
 					{% if trik.creator == app.user %}
-						<a class="btn btn-outline-danger" href="#">
+
+						<a class="btn btn-outline-danger" id="btnTrikDelete" href="{{ path('delete_trik',{id:trik.id}) }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							<i class="fa-solid fa-trash-can"></i>
 						</a>
 					{% endif %}
@@ -173,5 +175,7 @@
 			</div>
 		</section>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{{asset('js/detailTrik.js')}}"></script>
+	<script src="{{asset('js/admin/trik.js')}}"></script>
 {% endblock %}

@@ -69,6 +69,11 @@ class RegistrationController extends AbstractController
             $url = $this->generateUrl('app_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
             $mailer->sendVerifEmail($form->get('email')->getData(), $url);
 
+            $this->addFlash(
+                'success',
+                'Votre compte a bien été créé'
+            );
+
             return $this->redirectToRoute('app_login');
         }
 
