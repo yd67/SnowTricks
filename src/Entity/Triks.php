@@ -62,7 +62,7 @@ class Triks
     private $video;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="triks")
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="triks", cascade={"remove"})
      */
     private $comments;
 

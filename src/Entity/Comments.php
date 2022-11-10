@@ -47,7 +47,7 @@ class Comments
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="parent")
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="parent", cascade={"remove"})
      */
     private $responses;
 

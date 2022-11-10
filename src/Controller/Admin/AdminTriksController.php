@@ -133,7 +133,7 @@ class AdminTriksController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'la fifure a bien été supprimer'
+                'la figure a bien été supprimer'
             );
         }
         return $this->redirectToRoute('app_home') ;

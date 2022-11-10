@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-
+	{% include "includes/modalTrikDelete.html.twig" %}
 	<div class="container">
 		<a href="{{path('app_home')}}">
 			<i class="fa-solid fa-circle-left"></i>
@@ -86,9 +86,10 @@
 					{{ form_row(form.groupes,{'attr':{'class':'form-select m-xl-2'}}) }}
 
 					<div class="d-flex justify-content-end mt-5 pt-4">
-						<a href="{{ path('delete_trik',{id:trik.id}) }}" class="btn btn-danger me-5">
+						<a id="btnTrikDelete" href="{{ path('delete_trik',{id:trik.id}) }}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger me-5">
 							<i class="fa-solid fa-trash-can"></i>
-							Supprimer</a>
+							Supprimer
+						</a>
 						<button type="submit" class="btn btn-dark ">Enregistrer</button>
 					</div>
 				</div>
@@ -96,5 +97,7 @@
 		</section>
 		{{form_end(form)}}
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="{{asset('js/admin/trik.js')}}"></script>
 	<script src="{{asset('js/detailTrik.js')}}"></script>
 {% endblock %}

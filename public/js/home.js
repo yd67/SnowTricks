@@ -23,7 +23,7 @@ btnToDown.addEventListener("click",goDown) ;
 
 function goDown() {
   document.documentElement.scrollTo({
-      top: 800,
+      top: 870,
       left: 0,
       behavior: "smooth"
   })
@@ -37,13 +37,13 @@ function backToTop() {
 }
 //  partie load more 
 $(document).ready(function() {
-  $(".block").slice(0, 6).show();
+  $(".block").slice(0, 9).show();
   if ($(".block:hidden").length != 0) {
       $("#load").show();
   }
   $("#load").on("click", function(e) {
       e.preventDefault();
-      $(".block:hidden").slice(0, 3).slideDown();
+      $(".block:hidden").slice(0, 6).slideDown();
       if ($(".block:hidden").length == 0) {
           $("#load").hide();
       }
