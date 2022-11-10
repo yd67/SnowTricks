@@ -18,6 +18,7 @@ btn.forEach(function (element) {
 		btnAnuller.style.visibility = 'visible';
 
 	})
+ })
     
 	btnAnuller.addEventListener("click", myFunction);
 
